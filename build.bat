@@ -1,0 +1,1 @@
+cl toggle_dark_mode.c /O2 /W4 /WX /link /SUBSYSTEM:WINDOWS
