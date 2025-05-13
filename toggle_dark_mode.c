@@ -1,7 +1,3 @@
-#pragma comment(lib, "user32.lib")
-#pragma comment(lib, "advapi32.lib")
-#pragma comment(lib, "shell32.lib")
-
 #include <windows.h>
 
 #define REG_PATH L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
@@ -21,11 +17,11 @@ void PrintHelp(void) {
 
 int ParseThemeArg(int argc, wchar_t** argv) {
     for (int i = 1; i < argc; ++i) {
-        if (_wcsicmp(argv[i], L"-h") == 0 || _wcsicmp(argv[i], L"--help") == 0)
+        if (lstrcmpiW(argv[i], L"-h") == 0 || lstrcmpiW(argv[i], L"--help") == 0)
             return -2;
-        if (_wcsicmp(argv[i], L"-l") == 0 || _wcsicmp(argv[i], L"--light") == 0)
+        if (lstrcmpiW(argv[i], L"-l") == 0 || lstrcmpiW(argv[i], L"--light") == 0)
             return 1;
-        if (_wcsicmp(argv[i], L"-d") == 0 || _wcsicmp(argv[i], L"--dark") == 0)
+        if (lstrcmpiW(argv[i], L"-d") == 0 || lstrcmpiW(argv[i], L"--dark") == 0)
             return 0;
     }
     return -1;
@@ -62,7 +58,7 @@ void RefreshTheme(void) {
     SendNotifyMessageW(HWND_BROADCAST, WM_SETTINGCHANGE, 0, 0);
 }
 
-int main(void) {
+int Main(void) {
     int desiredValue = -1;
     int error = 0;
     int argc = 0;
@@ -91,7 +87,6 @@ int main(void) {
     return error;
 }
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLine, int nShowCmd) {
-    (void)(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
-    return main();
+void Entry(void) {
+    ExitProcess(Main());
 }
